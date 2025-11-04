@@ -1,0 +1,180 @@
+@import url('https://fonts.googleapis.com/css2?family=Kodchasan:wght@400;600&family=Poppins:wght@300;400;600&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #ffffff;
+    margin: 0;
+    padding: 30px;
+}
+
+/* ===== CABEÇALHO ===== */
+.dash-header {
+    background-color: #1E90FF;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    box-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+    border-radius: 30px;
+    color: white;
+}
+
+.titulo {
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+.usuario-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.btn-sair {
+    background: #eff1f3;
+    color: #1E90FF;
+    padding: 8px 15px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.btn-sair:hover {
+    transform:scale(1.1);
+}
+
+/* ===== CONTAINER PRINCIPAL ===== */
+.dash-container {
+    max-width: 800px;
+    margin: 50px auto;
+    background: #eff1f3;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 0 25px rgba(138, 43, 226, 0.25);
+}
+
+/* ===== NOVA produto ===== */
+.nova-produto-box h2 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    color: #1E90FF;
+}
+
+.form-produto {
+    display: flex;
+    gap: 10px;
+}
+
+.form-produto input {
+    flex: 1;
+    padding: 12px 15px;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    background: #ffffff;
+    
+    font-size: 1rem;
+}
+
+.btn-adicionar {
+    background: #1E90FF;
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: 0.3s;
+    font-family: 'Poppins';
+}
+
+.btn-adicionar:hover {
+    background: #9d4edd;
+}
+
+/* ===== LISTA DE produtoS ===== */
+.lista-produtos-box {
+    margin-top: 40px;
+}
+
+.lista-produtos-box h2 {
+    font-size: 1.3rem;
+    margin-bottom: 15px;
+    color: #1E90FF;
+}
+
+.lista-produtos-box ul {
+    list-style: none;
+    padding: 0;
+}
+
+.produto-item {
+    background: #fff;
+    margin-bottom: 10px;
+    padding: 12px 15px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 0 10px rgba(155, 89, 182, 0.15);
+    gap: 20px;
+}
+
+.produto-item span {
+    font-size: 1rem;
+}
+
+.produto-vazia {
+    text-align: center;
+    color: #aaa;
+    padding: 20px;
+    font-style: italic;
+}
+
+.btn-remover {
+    background: transparent;
+    border: 2px solid #1E90FF;
+    padding: 5px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 1rem;
+}
+
+
+
+.form-editar {
+    display: inline-flex;
+    gap: 5px;
+}
+
+.form-editar input {
+    padding: 5px 8px;
+    border-radius: 6px;
+    border: 1px solid #1E90FF;
+    background-color: #ffffff;
+    
+    outline: none;
+}
+
+.btn-editar {
+    background: #1E90FF;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-family: 'Poppins';
+}
+
+.btn-editar:hover {
+    background: #9d4edd;
+}
+.lista-produtos-box ul{
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+}
