@@ -11,7 +11,7 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    background-color: #1E90FF;
+    background-color: #F8F8F8;
 }
 
 header {
@@ -44,13 +44,13 @@ main {
 .text_container h1 {
     font-size: 42px;
     font-weight: 600;
-    color: #ffffff;
+    color: #1F3A5F;
     text-align: justify;
 }
 
 .text_container p {
     font-size: 22px;
-    color: #E6E6E6;
+    color: #1F3A5F;
     line-height: 1.6;
     text-align: justify;
 }
@@ -61,7 +61,7 @@ main {
     justify-content: center;
 }
 
-/* Botão estilizado */
+
 .botoes button {
     border-radius: 30px;
     min-width: 200px;
@@ -75,14 +75,14 @@ main {
 }
 
 .botoes .cadastro {
-    background-color: #1E90FF;
+    background-color: #1F3A5F;
     color: #eff1f3;
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 .botoes .login {
     background: #fff;
-    color: #1E90FF;
-    border: 2px solid #1E90FF;
+    color: #1F3A5F;
+    border: 2px solid #1F3A5F;
 }
 
 
@@ -97,7 +97,7 @@ main {
 
 .botoes .cadastro:hover {
     transform: scale(1.05);
-    background-color: #339CFF;
+    background-color: #2E567F;
     
 }
 

@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Dashboard - Gerenciador de livros</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='dash.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body class="dashboard-body">
 
     <header class="dash-header">
-        <h1 class="titulo">Gerenciador de livros</h1>
+        <h1 class="titulo">Biblioteca</h1>
         <div class="usuario-info">
             <span>Olá, <strong>{{ usuario }}</strong></span>
-            <a href="{{ url_for('logout') }}" class="btn-sair">Sair</a>
+            <a href="{{ url_for('logout') }}"> <i class="fa fa-sign-out" aria-hidden="true"></i></a>
         </div>
     </header>
 
@@ -20,31 +21,30 @@
         <div class="novo-livro-box">
             <h2>Adicionar novo livro</h2>
             <form method="POST" class="form-livro">
-                <input type="text" name="titulo" placeholder="Digite o nome da livro..." required>
-                <input type="text" name="" placeholder="Digite o nome da livro..." required>
+                <input type="text" name="titulo" placeholder="Digite o nome do livro">
+                <input type="text" name="isbn" placeholder="Digite o ISBN do livro">
+                <input type="text" name="ano" placeholder="Digite o ano do livro">
                 <button type="submit" class="btn-adicionar">Adicionar</button>
             </form>
         </div>
 
-        
-
         <div class="lista-livros-box">
-            <h2>Suas livros</h2>
+            <h2>Seus livros</h2>
             <ul>
                 {% for livro in livros %}
                     <li class="livro-item">
-                        <span>{{ livro.titulo }}</span>
-                        <form method="POST" action="{{ url_for('remover_livro', id_livro=livro.id) }}">
+                        <span>{{ livro.Titulo }}</span>
+                        <form method="POST" action="{{ url_for('remover_livro', id_livro=livro.ID_livro) }}">
                             <button type="submit" class="btn-remover">X</button>
                         </form>
                     </li>
 
-                    <form method="POST" action="{{ url_for('editar_livro', id_livro=livro.id) }}" class="form-editar">
-                    <input type="text" name="novo_livro" placeholder="Editar livro..." required>
-                    <button type="submit" class="btn-editar">Editar</button>
-            </form>
+                    <form method="POST" action="{{ url_for('editar_livro', id_livro=livro.ID_livro) }}" class="form-editar">
+                        <input type="text" name="novo_titulo" placeholder="Editar livro..." required>
+                        <button type="submit" class="btn-editar">Editar</button>
+                    </form>
                 {% else %}
-                    <li class="livro-vazia">Nenhuma livro cadastrada ainda </li>
+                    <li class="livro-vazia">Nenhum livro cadastrado ainda.</li>
                 {% endfor %}
             </ul>
         </div>

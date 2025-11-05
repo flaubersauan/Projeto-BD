@@ -2,14 +2,14 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: #ffffff;
+    background-color: #F8F8F8;
     margin: 0;
     padding: 30px;
 }
 
-/* ===== CABEÇALHO ===== */
-.dash-header {
-    background-color: #1E90FF;
+
+header{
+    background-color: #1F3A5F;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -45,7 +45,7 @@ body {
     transform:scale(1.1);
 }
 
-/* ===== CONTAINER PRINCIPAL ===== */
+
 .dash-container {
     max-width: 800px;
     margin: 50px auto;
@@ -55,7 +55,7 @@ body {
     box-shadow: 0 0 25px rgba(138, 43, 226, 0.25);
 }
 
-/* ===== NOVA produto ===== */
+
 .nova-produto-box h2 {
     font-size: 1.3rem;
     margin-bottom: 15px;
@@ -94,7 +94,6 @@ body {
     background: #9d4edd;
 }
 
-/* ===== LISTA DE produtoS ===== */
 .lista-produtos-box {
     margin-top: 40px;
 }
@@ -142,7 +141,11 @@ body {
     transition: 0.3s;
     font-size: 1rem;
 }
-
+form input{
+    background-color: #eff1f3;
+    padding: 10px;
+    border-radius: 10px;
+}
 
 
 .form-editar {
@@ -177,4 +180,11 @@ body {
     display: flex;
     gap: 10px;
     flex-direction: column;
+}
+
+i{
+    color: white;
+}
+.lista-produtos-box ul{
+    display: flex;
 }

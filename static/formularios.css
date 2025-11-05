@@ -10,7 +10,7 @@ body {
     font-family: 'Poppins', sans-serif;
     height: 100vh;
     display: flex;
-    background-color: #1a73e8;
+    background-color: #F8F8F8;
     background-size: 400% 400%;
     flex-direction: column;
 
@@ -27,7 +27,7 @@ header{
 
 header h1{
     font-size: 45px;
-    color: #ffffff;
+    color: #1F3A5F;
 }
 main{
     display: flex;
@@ -74,7 +74,7 @@ form{
     box-shadow: 0 0 2px black;
     font-size: 18px;
     font-family: 'Poppins';
-    background-color: #ffffff;
+    background-color: #CCC;
 }
 .senha input{
     min-height: 50px;
@@ -105,7 +105,7 @@ input:focus {
 form button{
     border: none;
     cursor: pointer;
-    background-color: green;
+    background-color: #1F3A5F;
     background-size: 200% auto;
     transition: all 0.4s ease;
     color: white;
