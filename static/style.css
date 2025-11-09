@@ -47,12 +47,14 @@ header{
 
 
 .dash-container {
-    max-width: 800px;
+    max-width: 1000px;
     margin: 50px auto;
     background: #eff1f3;
     padding: 40px;
     border-radius: 20px;
     box-shadow: 0 0 25px rgba(138, 43, 226, 0.25);
+    display: flex;
+    gap:50px;
 }
 
 
@@ -101,7 +103,7 @@ header{
 .lista-produtos-box h2 {
     font-size: 1.3rem;
     margin-bottom: 15px;
-    color: #1E90FF;
+
 }
 
 .lista-produtos-box ul {
@@ -185,6 +187,71 @@ form input{
 i{
     color: white;
 }
-.lista-produtos-box ul{
+.cards-container {
     display: flex;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+/* Cards menores e mais leves */
+.lista-produtos-box {
+    flex: 1;
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(138, 43, 226, 0.12);
+    min-height: 320px;
+    overflow-y: auto;
+}
+
+.lista-produtos-box h2 {
+    font-size: 1.1rem;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+/* Itens mais estreitos */
+.produto-item {
+    background: #fdfdfd;
+    margin-bottom: 8px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 0 6px rgba(155, 89, 182, 0.12);
+    gap: 10px;
+}
+
+.produto-item strong {
+    font-size: 0.95rem;
+}
+
+.produto-item span {
+    font-size: 0.85rem;
+    color: #444;
+}
+
+/* Botões menores e sutis */
+.btn-adicionar, .btn-editar {
+    background: #1E90FF;
+    color: #fff;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 0.85rem;
+}
+
+.btn-adicionar:hover, .btn-editar:hover {
+    background: #9d4edd;
+}
+
+.produto-vazia {
+    text-align: center;
+    color: #aaa;
+    padding: 15px;
+    font-style: italic;
+    font-size: 0.9rem;
 }
