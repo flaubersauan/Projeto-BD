@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Autor - Biblioteca</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> 
+</head>
+
+<body class="dashboard-body">
+    <header class="dash-header">
+        <h1 class="titulo"><i class="fas fa-book"></i> Biblioteca</h1> 
+        <div class="usuario-info">
+            <span>Olá, <strong>{{ usuario }}</strong></span>
+            <a href="{{ url_for('dashboard') }}" class="btn-sair">Voltar ao Dashboard</a>
+        </div>
+    </header>
+
+    <div class="form-container">
+        <!-- Mensagens flash -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flashes">
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+    
+        <div class="novo-livro-box">
+            <h2><i class="fas fa-user-plus"></i> Adicionar Novo Autor</h2> 
+            <form method="POST" action="{{ url_for('add_autor') }}" class="form-livro">
+                <label for="nome_autor">Nome do Autor:</label>
+                <input type="text" id="nome_autor" name="nome_autor" placeholder="Ex: Machado de Assis" required aria-label="Nome do Autor">
+
+                <label for="nacionalidade">Nacionalidade:</label>
+                <input type="text" id="nacionalidade" name="nacionalidade" placeholder="Ex: Brasileiro" aria-label="Nacionalidade">
+
+                <label for="data_nascimento">Data de Nascimento:</label>
+                <input type="date" id="data_nascimento" name="data_nascimento" aria-label="Data de Nascimento">
+
+                <label for="biografia">Biografia:</label>
+                <textarea id="biografia" name="biografia" rows="4" placeholder="Escreva uma breve biografia..." aria-label="Biografia"></textarea>
+
+                <button type="submit" class="btn-adicionar">Adicionar Autor</button>
+            </form>
+        </div>
+
+        <div class="lista-produtos-box">
+            <h3><i class="fas fa-list-ul"></i> Autores Já Cadastrados:</h3>
+            <ul>
+                {% for a in autores %}
+                    <li class="produto-item">
+                        <div>
+                            <strong>{{ a.Nome_autor }}</strong>
+                            {% if a.Nacionalidade %} - {{ a.Nacionalidade }}{% endif %}
+                        </div>
+                        <div>
+                            {% if a.Usuario_id == current_user.id %}
+                                <form method="GET" action="{{ url_for('editar_autor', id_autor=a.ID_autor) }}" style="display:inline;">
+                                    <button type="submit" class="btn-editar" title="Editar Autor">Editar</button>
+                                </form>
+                                <form method="POST" action="{{ url_for('remover_autor', id_autor=a.ID_autor) }}" style="display:inline;">
+                                    <button type="submit" class="btn-remover" title="Remover Autor">X</button>
+                                </form>
+                            {% endif %}
+                        </div>
+                    </li>
+                {% else %}
+                    <li class="produto-vazia">Nenhum autor cadastrado ainda.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
