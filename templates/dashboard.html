@@ -9,76 +9,155 @@
 <body class="dashboard-body">
 
     <header class="dash-header">
-        <h1 class="titulo">Biblioteca</h1>
+        <h1 class="titulo"><i class="fas fa-book"></i> Biblioteca</h1>
         <div class="usuario-info">
             <span>Olá, <strong>{{ usuario }}</strong></span>
-            <a href="{{ url_for('logout') }}">
-                <i class="fa fa-sign-out" aria-hidden="true"></i>
+            <a href="{{ url_for('logout') }}" class="btn-sair">
+                <i class="fa fa-sign-out" aria-hidden="true"></i> Sair
             </a>
         </div>
     </header>
 
-    <!-- Container principal dividido em duas colunas -->
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for message in messages %}
+                    <div class="alert">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
     <div class="dash-container">
+        
+        <div class="lista-livros-box">
+            <div class="novo-livro-box">
+                <h2>Adicionar Livro</h2>
 
-    <!-- Catálogo de livros -->
-    <div class="lista-livros-box">
-        <h2>Catálogo de Livros</h2>
-        <ul>
-            {% for livro in livros %}
-                <li class="produto-item">
-                    <div>
-                        <strong>{{ livro.Titulo }}</strong><br>
-                        <span>Ano: {{ livro.Ano_publicacao }}</span><br>
-                        <span>Disponíveis: {{ livro.Quantidade_disponivel }}</span>
+                <form method="POST" action="{{ url_for('add_livro') }}" class="form-livro">
+                    <div class="form-grid">
+                        <label for="titulo">Título:</label>
+                        <input type="text" name="titulo" id="titulo" required>
+
+                        <label for="isbn">ISBN:</label>
+                        <input type="text" name="isbn" id="isbn" required>
+
+                        <label for="genero_id">Gênero:</label>
+                        <select name="genero_id" id="genero_id" required>
+                            <option value="">Selecione um gênero</option>
+                            {% for genero in generos %}
+                                <option value="{{ genero.ID_genero }}">{{ genero.Nome_genero }}</option>
+                            {% endfor %}
+                        </select>
+
+                        <label for="ano">Ano:</label>
+                        <input type="number" name="ano" id="ano" min="1000" max="2100" required>
+
+                        <label for="resumo">Resumo:</label>
+                        <textarea name="resumo" id="resumo" rows="3" required></textarea>
+
+                        <label for="qtd">Quantidade:</label>
+                        <input type="number" name="qtd" id="qtd" min="1" required>
+
+                        <label for="autor_id">Autor:</label>
+                        <select name="autor_id" id="autor_id" required>
+                            <option value="">Selecione um autor</option>
+                            {% for autor in autores %}
+                                <option value="{{ autor.ID_autor }}">{{ autor.Nome_autor }}</option>
+                            {% endfor %}
+                        </select>
+
+                        <label for="editora_id">Editora:</label>
+                        <select name="editora_id" id="editora_id" required>
+                            <option value="">Selecione uma editora</option>
+                            {% for editora in editoras %}
+                                <option value="{{ editora.ID_editora }}">{{ editora.Nome_editora }}</option>
+                            {% endfor %}
+                        </select>
+                        
                     </div>
 
-                    <div>
-                        {% if livro.Quantidade_disponivel > 0 %}
-                            <form method="POST" action="{{ url_for('emprestar_livro', id_livro=livro.ID_livro) }}">
-                                <button type="submit" class="btn-editar">Pegar emprestado</button>
+                    <div class="form-actions">
+                        <button type="submit" class="btn-link btn-autor">Adicionar Livro</button>
+                        <a href="{{ url_for('add_autor') }}" class="btn-link btn-autor" role="button">Cadastrar novo autor</a>
+                        <a href="{{ url_for('add_genero') }}" class="btn-link btn-genero" role="button">Cadastrar novo gênero</a>
+                        <a href="{{ url_for('add_editora') }}" class="btn-link btn-editora" role="button">Cadastrar nova editora</a>
+
+
+                    </div>
+                </form>
+            </div>
+
+            <h2>Catálogo de Livros</h2>
+            <ul>
+                {% for livro in livros %}
+                    <li class="produto-item">
+                        <div>
+                            <strong>{{ livro.Titulo }}</strong><br>
+                            <span>Ano: {{ livro.Ano_publicacao }}</span><br>
+                            <span>Disponíveis: {{ livro.Quantidade_disponivel }}</span>
+                        </div>
+
+                        <div style="display: flex; gap: 5px; flex-wrap: wrap;">
+                            {% if livro.Quantidade_disponivel > 0 %}
+                                <form method="POST" action="{{ url_for('emprestar_livro', id_livro=livro.ID_livro) }}" style="margin: 0;">
+                                    <button type="submit" class="btn-editar">Pegar emprestado</button>
+                                </form>
+                            {% else %}
+                                <span style="color: gray; font-size: 0.9rem;">Indisponível</span>
+                            {% endif %}
+
+                            <form method="GET" action="{{ url_for('editar_livro', id_livro=livro.ID_livro) }}" style="margin: 0;">
+                                <button type="submit" class="btn-editar">Editar</button>
                             </form>
-                        {% else %}
-                            <span style="color: gray; font-size: 0.9rem;">Indisponível</span>
-                        {% endif %}
-                    </div>
-                </li>
-            {% else %}
-                <li class="produto-vazia">Nenhum livro disponível.</li>
-            {% endfor %}
-        </ul>
-    </div>
 
-    <!-- Lista de empréstimos -->
-    <div class="lista-produtos-box">
-        <h2>Meus Empréstimos</h2>
-        <ul>
-            {% for e in emprestimos %}
-                <li class="produto-item">
-                    <div>
-                        <strong>{{ e.Titulo }}</strong><br>
-                        <span>Empréstimo: {{ e.Data_emprestimo }}</span><br>
-                        <span>Devolução: {{ e.Data_devolucao_prevista }}</span><br>
-                        <span>Status: {{ e.Status_emprestimo }}</span>
-                    </div>
-
-                    <div>
-                        {% if e.Status_emprestimo == 'pendente' %}
-                            <form method="POST" action="{{ url_for('devolver_livro', id_emprestimo=e.ID_emprestimo) }}">
-                                <button type="submit" class="btn-editar">Devolver</button>
+                            <form method="POST" action="{{ url_for('remover_livro', id_livro=livro.ID_livro) }}" 
+                                  onsubmit="return confirm('Tem certeza que deseja remover este livro?')" style="margin: 0;">
+                                <button type="submit" class="btn-remover">X</button>
                             </form>
-                        {% else %}
-                            <span style="color: green; font-size: 0.9rem;">Devolvido</span>
-                        {% endif %}
-                    </div>
-                </li>
-            {% else %}
-                <li class="produto-vazia">Você ainda não possui empréstimos.</li>
-            {% endfor %}
-        </ul>
-    </div>
+                        </div>
+                    </li>
+                {% else %}
+                    <li class="produto-vazia">Nenhum livro disponível.</li>
+                {% endfor %}
+            </ul>
+        </div>
 
-</div>
+        <div class="lista-produtos-box">
+            <h2>Meus Empréstimos</h2>
+            <ul>
+                {% for e in emprestimos %}
+                    <li class="produto-item">
+                        <div>
+                            <strong>{{ e.Titulo }}</strong><br>
+                            <span>Empréstimo: {{ e.Data_emprestimo }}</span><br>
+                            <span>Devolução: {{ e.Data_devolucao_prevista }}</span><br>
+                            <span>Status: 
+                                {% if e.Status_emprestimo == 'pendente' %}
+                                    <span style="color: orange;">{{ e.Status_emprestimo }}</span>
+                                {% elif e.Status_emprestimo == 'devolvido' %}
+                                    <span style="color: green;">{{ e.Status_emprestimo }}</span>
+                                {% else %}
+                                    {{ e.Status_emprestimo }}
+                                {% endif %}
+                            </span>
+                        </div>
+
+                        <div>
+                            {% if e.Status_emprestimo == 'pendente' %}
+                                <form method="POST" action="{{ url_for('devolver_livro', id_emprestimo=e.ID_emprestimo) }}">
+                                    <button type="submit" class="btn-editar">Devolver</button>
+                                </form>
+                            {% else %}
+                                <span style="color: green; font-size: 0.9rem;">✓ Devolvido</span>
+                            {% endif %}
+                        </div>
+                    </li>
+                {% else %}
+                    <li class="produto-vazia">Você ainda não possui empréstimos.</li>
+                {% endfor %}
+            </ul>
+        </div>
 
     </div>
 

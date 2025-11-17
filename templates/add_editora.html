@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Editora - Biblioteca</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> 
+</head>
+
+<body class="dashboard-body">
+    <header class="dash-header">
+        <h1 class="titulo"><i class="fas fa-book"></i> Biblioteca</h1> 
+        <div class="usuario-info">
+            <span>Olá, <strong>{{ usuario }}</strong></span>
+            <a href="{{ url_for('dashboard') }}" class="btn-sair">Voltar ao Dashboard</a>
+        </div>
+    </header>
+
+    <div class="form-container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flashes">
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        <div class="novo-livro-box">
+            <h2><i class="fas fa-building"></i> Cadastrar Nova Editora</h2> 
+            <form method="POST" action="{{ url_for('add_editora') }}" class="form-livro">
+                <label for="nome_editora">Nome da Editora:</label>
+                <input type="text" id="nome_editora" name="nome_editora" placeholder="Ex: Companhia das Letras" required aria-label="Nome da Editora">
+                
+                <label for="endereco_editora">Endereço (opcional):</label>
+                <textarea id="endereco_editora" name="endereco_editora" rows="3" placeholder="Rua Exemplo, 123"></textarea>
+
+                <div class="form-actions" style="margin-top:6px;">
+                    <button type="submit" class="btn-adicionar">Adicionar Editora</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="lista-produtos-box">
+            <h3><i class="fas fa-list-ul"></i> Editoras Cadastradas</h3>
+            <ul>
+                {% for e in editoras %}
+                    <li class="produto-item">
+                        <div>
+                            <strong>{{ e.Nome_editora }}</strong>
+                            {% if e.Endereco_editora %}<small style="display:block;">Endereço: {{ e.Endereco_editora }}</small>{% endif %}
+                        </div>
+                        <div>
+                            {# Verifica se a editora foi adicionada pelo usuário atual #}
+                            {% if e.Usuario_id == current_user.id %} 
+                                <form method="GET" action="{{ url_for('editar_editora', id_editora=e.ID_editora) }}" style="display:inline;">
+                                    <button type="submit" class="btn-editar" title="Editar Editora">Editar</button>
+                                </form>
+                                <form method="POST" action="{{ url_for('remover_editora', id_editora=e.ID_editora) }}" style="display:inline;">
+                                    <button type="submit" class="btn-remover" title="Remover Editora">X</button>
+                                </form>
+
+                                
+                            {% endif %}
+                        </div>
+                    </li>
+                {% else %}
+                    <li class="produto-vazia">Nenhuma editora cadastrada ainda.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</body>
