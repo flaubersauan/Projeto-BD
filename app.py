@@ -745,7 +745,14 @@ def editar_editora(id_editora):
             flash("Editora atualizada com sucesso!")
             return redirect(url_for('add_editora'))
 
-        return render_template('editar_editora.html', usuario=current_user.nome, editora=editora)
+        # Buscar todas as editoras para exibir na lista
+        editoras = db.execute(text("""
+            SELECT ID_editora, Nome_editora, Endereco_editora, Usuario_id
+            FROM Editoras
+            ORDER BY Nome_editora
+        """)).fetchall()
+
+        return render_template('editar_editora.html', usuario=current_user.nome, editora=editora, editoras=editoras)
     finally:
         db.close()
 
