@@ -1,6 +1,6 @@
 create database db_trabalho3b;
 
-
+use db_trabalho3b;
 CREATE TABLE Autores (
     ID_autor INT AUTO_INCREMENT PRIMARY KEY,
     Nome_autor VARCHAR(255) NOT NULL,
@@ -52,23 +52,84 @@ CREATE TABLE Emprestimos (
     Data_devolucao_prevista DATE,
     Data_devolucao_real DATE,
     Status_emprestimo ENUM('pendente', 'devolvido', 'atrasado'),
-    Livro_genero_id INT NULL,
-    Livro_autor_id INT NULL,
     FOREIGN KEY (Usuario_id) REFERENCES Usuarios(ID_usuario),
-    FOREIGN KEY (Livro_id) REFERENCES Livros(ID_livro),
-    FOREIGN KEY (Livro_genero_id) REFERENCES Generos(ID_genero) ON DELETE RESTRICT,
-    FOREIGN KEY (Livro_autor_id) REFERENCES Autores(ID_autor) ON DELETE RESTRICT
+    FOREIGN KEY (Livro_id) REFERENCES Livros(ID_livro)
 );
 
 alter table Usuarios add column Senha varchar(300);
-alter table Autores add COLUMN Usuario_id int null;
 
-alter table Livros add COLUMN Usuario_id int null;
-alter table Livros 
-    add constraint fk_livros_usuarios
-    foreign key (Usuario_id) references Usuarios(ID_usuario);
+delimiter //
 
-ALTER TABLE Editoras ADD COLUMN Usuario_id INT NULL;
-ALTER TABLE Editoras
-    ADD CONSTRAINT fk_editoras_usuarios
-    FOREIGN KEY (Usuario_id) REFERENCES Usuarios(ID_usuario) ON DELETE SET NULL;
+create trigger trg_usuarios_nome_minimo
+before insert on usuarios
+for each row
+begin
+    if char_length(new.nome_usuario) < 3 then
+        signal sqlstate '45000'
+            set message_text = 'o nome do usuário deve ter pelo menos 3 caracteres.';
+    end if;
+end //
+
+delimiter ;
+
+insert into usuarios values(default, 'jp', 'jp@gmail.com', '(84) 99817-4551', '2007/12/12', 1.54, '123');
+
+delimiter //
+
+create trigger trg_usuarios_nome_minimo_update
+before update on usuarios
+for each row
+begin
+    if char_length(new.nome_usuario) < 3 then
+        signal sqlstate '45000'
+            set message_text = 'o nome do usuário deve ter pelo menos 3 caracteres.';
+    end if;
+end //
+
+delimiter ;
+
+delimiter //
+
+create trigger trg_livros_isbn_valido
+before insert on livros
+for each row
+begin
+    if char_length(new.isbn) <> 13 then
+        signal sqlstate '45000'
+            set message_text = 'o isbn deve possuir exatamente 13 dígitos.';
+    end if;
+end //
+
+delimiter ;
+
+delimiter //
+
+create trigger trg_emprestimos_datas_validas
+before insert on emprestimos
+for each row
+begin
+    if new.data_devolucao_prevista < new.data_emprestimo then
+        signal sqlstate '45000'
+            set message_text = 'a data de devolução prevista não pode ser anterior à data de empréstimo.';
+    end if;
+end //
+
+delimiter ;
+
+delimiter //
+
+create trigger trg_livros_quantidade_valida
+before update on livros
+for each row
+begin
+    if new.quantidade_disponivel < 0 then
+        signal sqlstate '45000'
+            set message_text = 'a quantidade disponível não pode ser negativa.';
+    end if;
+end //
+
+delimiter ;
+
+
+
+

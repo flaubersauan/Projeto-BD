@@ -333,7 +333,7 @@ def remover_livro(id_livro):
 
         flash("Livro removido com sucesso!")
     except Exception as e:
-        flash(f"Erro ao remover livro: {str(e)}")
+        flash(f"Erro ao remover livro pois existem registros de empréstimos associados")
     finally:
         db.close()
     
