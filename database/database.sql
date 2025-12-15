@@ -72,7 +72,6 @@ end //
 
 delimiter ;
 
-insert into usuarios values(default, 'jp', 'jp@gmail.com', '(84) 99817-4551', '2007/12/12', 1.54, '123');
 
 delimiter //
 

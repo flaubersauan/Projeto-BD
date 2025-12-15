@@ -3,6 +3,8 @@ from flask_login import LoginManager, login_user, login_required, logout_user, U
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import text
 from database import Session
+from sqlalchemy.exc import OperationalError, IntegrityError, DBAPIError
+
 
 app = Flask(__name__)
 app.secret_key = "segredo_muito_seguro"
@@ -69,8 +71,11 @@ def cadastro():
 
             flash('Usuário cadastrado com sucesso!')
             return redirect(url_for('login'))
-        finally:
-            db.close()
+        
+        except DBAPIError as e:
+            erro_mysql = str(e.orig).split(",")[-1].replace("'", "").strip()
+            db.rollback()
+            flash(erro_mysql, "error")
 
     return render_template('cadastro.html')
 
@@ -230,8 +235,10 @@ def add_livro():
 
         db.commit()
         flash('Livro adicionado com sucesso!')
-    except Exception as e:
-        flash(f'Erro ao adicionar livro: {str(e)}')
+    except DBAPIError as e:
+        erro_mysql = str(e.orig).split(",")[-1].replace("'", "").strip()
+        db.rollback()
+        flash(erro_mysql)
     finally:
         db.close()
     
@@ -296,6 +303,13 @@ def editar_livro(id_livro):
         editoras = db.execute(text("SELECT ID_editora, Nome_editora FROM Editoras ORDER BY Nome_editora")).fetchall()
 
         return render_template('editar.html', livro=livro, generos=generos, autores=autores, editoras=editoras)
+    
+    except DBAPIError as e:
+        db.rollback()
+        erro_mysql = str(e.orig.split(",")[-1].replace("'", "").strip(" )"))
+        flash(erro_mysql, 'sucess')
+
+
     finally:
         db.close()
 
@@ -331,7 +345,7 @@ def remover_livro(id_livro):
         db.execute(text("DELETE FROM Livros WHERE ID_livro = :id"), {"id": id_livro})
         db.commit()
 
-        flash("Livro removido com sucesso!")
+        flash("Livro removido com sucesso!", "sucess")
     except Exception as e:
         flash(f"Erro ao remover livro pois existem registros de empréstimos associados")
     finally:

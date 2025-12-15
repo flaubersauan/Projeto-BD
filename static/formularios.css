@@ -23,6 +23,7 @@ header{
     justify-content: center;
     color: white;
     margin-top: 20px;
+    margin-bottom: 50px;
 }
 
 header h1{
@@ -157,4 +158,38 @@ button:hover{
 
 i{
     color: #1a73e8;
+}
+
+.alert, .flashes li {
+    padding: 16px 20px;
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+    border-left: 4px solid var(--primary);
+    border-radius: var(--radius-md);
+    margin-bottom: 12px;
+    font-weight: 500;
+    color: var(--primary-dark);
+    box-shadow: var(--shadow-sm);
+    animation: slideInDown 0.3s ease;
+}
+ul.flashes{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.flashes li.error {
+    background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+    border-left-color: var(--danger);
+    color: var(--danger);
+    border-radius: 20px;
+    max-width: 700px;
+}
+
+.flashes li.success {
+    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+    border-left-color: var(--success);
+    color: var(--success);
+}
+
+.flashes {
+    list-style: none;
 }

@@ -179,7 +179,7 @@ header::before,
 
 .flashes li.error {
     background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
-    border-left-color: var(--danger);
+    border-left-color: var(--danger) 5px;
     color: var(--danger);
 }
 
