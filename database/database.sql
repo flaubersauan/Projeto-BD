@@ -58,6 +58,25 @@ CREATE TABLE Emprestimos (
 
 alter table Usuarios add column Senha varchar(300);
 
+ALTER TABLE Autores
+ADD COLUMN Usuario_id INT,
+ADD CONSTRAINT fk_autores_usuarios
+FOREIGN KEY (Usuario_id) REFERENCES Usuarios(ID_usuario);
+
+ALTER TABLE Editoras
+ADD COLUMN Usuario_id INT,
+ADD CONSTRAINT fk_editoras_usuarios
+FOREIGN KEY (Usuario_id) REFERENCES Usuarios(ID_usuario);
+
+ALTER TABLE Livros
+ADD COLUMN Usuario_id INT,
+ADD CONSTRAINT fk_livros_usuarios
+FOREIGN KEY (Usuario_id) REFERENCES Usuarios(ID_usuario);
+
+
+
+
+
 delimiter //
 
 create trigger trg_usuarios_nome_minimo
@@ -76,7 +95,7 @@ delimiter ;
 delimiter //
 
 create trigger trg_usuarios_nome_minimo_update
-before update on usuarios
+before update on Usuarios
 for each row
 begin
     if char_length(new.nome_usuario) < 3 then
@@ -90,7 +109,7 @@ delimiter ;
 delimiter //
 
 create trigger trg_livros_isbn_valido
-before insert on livros
+before insert on Livros
 for each row
 begin
     if char_length(new.isbn) <> 13 then
@@ -104,7 +123,7 @@ delimiter ;
 delimiter //
 
 create trigger trg_emprestimos_datas_validas
-before insert on emprestimos
+before insert on Emprestimos
 for each row
 begin
     if new.data_devolucao_prevista < new.data_emprestimo then
@@ -118,7 +137,7 @@ delimiter ;
 delimiter //
 
 create trigger trg_livros_quantidade_valida
-before update on livros
+before update on Livros
 for each row
 begin
     if new.quantidade_disponivel < 0 then
