@@ -85,6 +85,18 @@ ADD CONSTRAINT fk_livros_usuarios
 FOREIGN KEY (Usuario_id) REFERENCES Usuarios(ID_usuario);
 
 
+ALTER TABLE Emprestimos
+ADD COLUMN Livro_genero_id INT,
+ADD COLUMN Livro_autor_id INT;
+
+ALTER TABLE Emprestimos
+ADD CONSTRAINT fk_emprestimos_genero_snapshot
+FOREIGN KEY (Livro_genero_id) REFERENCES Generos(ID_genero);
+
+ALTER TABLE Emprestimos
+ADD CONSTRAINT fk_emprestimos_autor_snapshot
+FOREIGN KEY (Livro_autor_id) REFERENCES Autores(ID_autor);
+
 
 
 -- Triggers de validação : Flauber Sauan

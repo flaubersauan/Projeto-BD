@@ -644,11 +644,6 @@ def emprestar_livro(id_livro):
             "aut_id": livro.Autor_id
         })
 
-        db.execute(text("""
-            UPDATE Livros 
-            SET Quantidade_disponivel = Quantidade_disponivel - 1 
-            WHERE ID_livro = :id
-        """), {"id": id_livro})
 
         db.commit()
         flash("Empréstimo realizado com sucesso!")
@@ -682,11 +677,6 @@ def devolver_livro(id_emprestimo):
             WHERE ID_emprestimo = :eid
         """), {"eid": id_emprestimo})
 
-        db.execute(text("""
-            UPDATE Livros
-            SET Quantidade_disponivel = Quantidade_disponivel + 1
-            WHERE ID_livro = :lid
-        """), {"lid": emprestimo.Livro_id})
 
         db.commit()
         flash("Livro devolvido com sucesso!")
