@@ -100,6 +100,22 @@ FOREIGN KEY (Livro_autor_id) REFERENCES Autores(ID_autor);
 
 
 -- Triggers de validação : Flauber Sauan
+
+DELIMITER //
+
+CREATE TRIGGER trg_usuarios_nome_minimo_insert
+BEFORE INSERT ON Usuarios
+FOR EACH ROW
+BEGIN
+    IF CHAR_LENGTH(NEW.Nome_usuario) < 3 THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'o nome do usuário deve ter pelo menos 3 caracteres.';
+    END IF;
+END //
+
+DELIMITER ;
+
+
 delimiter //
 create trigger trg_usuarios_nome_minimo_update
 before update on Usuarios
@@ -365,3 +381,4 @@ BEGIN
 END//
 
 DELIMITER ;
+delete from Usuarios;
